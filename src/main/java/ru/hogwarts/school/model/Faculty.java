@@ -11,6 +11,10 @@ public class Faculty {
     public Faculty() {
     }
 
+    public Faculty(String title, String color) {
+        this.title = title;
+        this.color = color;
+    }
     public Faculty(Long id, String title, String color) {
         this.id = id;
         this.title = title;
@@ -42,8 +46,8 @@ public class Faculty {
         return title;
     }
 
-    public void setName(String name) {
-        this.title = name;
+    public void setName(String title) {
+        this.title = title;
     }
 
     public String getColor() {

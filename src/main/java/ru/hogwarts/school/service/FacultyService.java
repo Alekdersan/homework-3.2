@@ -1,9 +1,9 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.http.ResponseEntity;
 import ru.hogwarts.school.model.Faculty;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface FacultyService {
 
@@ -16,4 +16,6 @@ public interface FacultyService {
     Faculty deleteFaculty(Long id);
 
     Collection<Faculty> getAllFaculties();
+
+    List<Faculty> getByColor(String color);
 }
