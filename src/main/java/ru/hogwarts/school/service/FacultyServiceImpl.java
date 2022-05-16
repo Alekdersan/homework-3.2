@@ -60,5 +60,4 @@ public class FacultyServiceImpl implements FacultyService {
         return faculties.values().stream().filter(faculty -> faculty.getColor().equals(color))
                 .collect(Collectors.toList());
     }
-
 }
