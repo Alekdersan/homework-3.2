@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 
+
 public interface FacultyService {
 
     Faculty creatFaculty(Faculty faculty);
