@@ -10,6 +10,7 @@ public class Faculty {
     private String title;
     private String color;
 
+
     public Faculty() {
     }
 
