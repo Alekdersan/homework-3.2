@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService{
         creatStudent(new Student("Harry Potter", 30));
         creatStudent(new Student("Cedric Diggory", 45));
         creatStudent(new Student("Zhou Chang", 42));
-        creatStudent(new Student("Graham Montague", 38));
+        creatStudent(new Student("Graham Montague", 30));
     }
 
     @Override

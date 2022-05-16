@@ -24,7 +24,7 @@ public class FacultyController {
     public ResponseEntity<Faculty> getFaculty(@PathVariable Long id) {
         Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(faculty);
     }
@@ -34,7 +34,7 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
 
-    @GetMapping("/color")
+    @GetMapping("/filter/{color}")
     public ResponseEntity<List<Faculty>> getByColor(@PathVariable String color) {
         return ResponseEntity.ok(facultyService.getByColor(color));
     }

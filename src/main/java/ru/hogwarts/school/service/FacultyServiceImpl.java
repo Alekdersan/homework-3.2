@@ -2,7 +2,6 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
@@ -23,7 +22,7 @@ public class FacultyServiceImpl implements FacultyService {
         creatFaculty(new Faculty("Gryffindor", "Red"));
         creatFaculty(new Faculty("Hufflepuff", "Blue"));
         creatFaculty(new Faculty("Ravenclaw", "Yellow"));
-        creatFaculty(new Faculty("Slytherin", "Green"));
+        creatFaculty(new Faculty("Slytherin", "Red"));
     }
 
     @Override
