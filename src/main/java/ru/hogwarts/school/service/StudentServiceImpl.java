@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -12,52 +13,41 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService{
 
-    private Long generatedId = 0L;
-    private final Map<Long, Student> students = new HashMap<>();
+private final StudentRepository studentRepository;
 
-
-    @PostConstruct
-    public void init() {
-        creatStudent(new Student("Harry Potter", 30));
-        creatStudent(new Student("Cedric Diggory", 45));
-        creatStudent(new Student("Zhou Chang", 42));
-        creatStudent(new Student("Graham Montague", 30));
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
+
 
     @Override
     public Student creatStudent(Student student) {
-        student.setId(++generatedId);
-        students.put(generatedId, student);
-        return student;
+        return studentRepository.save(student);
     }
 
     @Override
     public Student findStudentById(Long id) {
-        return students.get(id);
+        return studentRepository.findById(id).get();
     }
 
     @Override
     public Student editStudent(Student student) {
-        if (students.containsKey(student.getId())) {
-            students.put(student.getId(), student);
-            return student;
-        }
-        return null;
+        return studentRepository.save(student);
     }
 
     @Override
-    public Student deleteStudent(Long id) {
-        return students.remove(id);
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
     }
 
     @Override
     public Collection<Student> getAllStudents() {
-        return students.values();
+        return studentRepository.findAll();
     }
 
-    public List<Student> getByAge(int age) {
-        return students.values().stream()
+    public Set<Student> getByAge(int age) {
+        return studentRepository.findAll().stream()
                 .filter(student -> student.getAge() == age)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

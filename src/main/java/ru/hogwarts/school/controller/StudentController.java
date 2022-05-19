@@ -8,7 +8,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 
 
 @RestController
@@ -36,8 +36,8 @@ public class StudentController {
     }
 
     @GetMapping("/filter/{age}")
-    public ResponseEntity<List<Student>> getByAge(@PathVariable int age) {
-        return ResponseEntity.ok(studentService.getByAge(age));
+    public Set<Student> getByAge(@PathVariable int age) {
+        return studentService.getByAge(age);
     }
 
     @PostMapping
@@ -60,10 +60,7 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        Student deletedStudent = studentService.deleteStudent(id);
-        if (deletedStudent == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(deletedStudent);
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 }

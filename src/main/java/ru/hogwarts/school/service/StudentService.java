@@ -4,8 +4,7 @@ import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
 import java.util.List;
-
-
+import java.util.Set;
 
 
 public interface StudentService {
@@ -16,9 +15,9 @@ public interface StudentService {
 
     Student editStudent(Student student);
 
-    Student deleteStudent(Long id);
+    void deleteStudent(Long id);
 
     Collection<Student> getAllStudents();
 
-    List<Student> getByAge(int age);
+    Set<Student> getByAge(int age);
 }

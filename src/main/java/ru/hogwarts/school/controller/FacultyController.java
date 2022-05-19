@@ -8,6 +8,7 @@ import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -35,8 +36,8 @@ public class FacultyController {
     }
 
     @GetMapping("/filter/{color}")
-    public ResponseEntity<List<Faculty>> getByColor(@PathVariable String color) {
-        return ResponseEntity.ok(facultyService.getByColor(color));
+    public Set<Faculty> getByColor(@PathVariable String color) {
+        return facultyService.getByColor(color);
     }
 
     @PostMapping
@@ -59,10 +60,7 @@ public class FacultyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
-        Faculty deletedFaculty = facultyService.deleteFaculty(id);
-        if (deletedFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(deletedFaculty);
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 }
