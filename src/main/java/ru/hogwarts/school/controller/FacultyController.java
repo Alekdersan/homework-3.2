@@ -62,5 +62,6 @@ public class FacultyController {
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
+
     }
 }
