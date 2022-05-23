@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,5 +48,10 @@ public class FacultyServiceImpl implements FacultyService {
     public Set<Faculty> getByColor(String color) {
         return facultyRepository.findAll().stream().filter(faculty -> faculty.getColor().equals(color))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Faculty> findFacultyByColorOrNameIgnoreCase(String color, String title) {
+        return facultyRepository.findByColorIgnoreCaseOrTitleIgnoreCase(color, title);
     }
 }

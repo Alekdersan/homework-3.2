@@ -9,11 +9,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
-private final StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -49,5 +48,13 @@ private final StudentRepository studentRepository;
         return studentRepository.findAll().stream()
                 .filter(student -> student.getAge() == age)
                 .collect(Collectors.toSet());
+    }
+
+    public Set<Student> findAllStudentsByAgeBetween(Integer min, Integer max) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
+    public Set<Student> findStudentsByNameContains(String part) {
+        return studentRepository.findByNameContainsIgnoreCase(part);
     }
 }

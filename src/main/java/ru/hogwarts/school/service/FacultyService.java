@@ -20,4 +20,6 @@ public interface FacultyService {
     Collection<Faculty> getAllFaculties();
 
     Set<Faculty> getByColor(String color);
+
+    Set<Faculty> findFacultyByColorOrNameIgnoreCase(String color, String title);
 }

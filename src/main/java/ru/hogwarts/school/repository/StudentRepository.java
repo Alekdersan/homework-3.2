@@ -8,4 +8,10 @@ import java.util.Set;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Set<Student> getByAge(int age);
+
+    Set<Student> findByAgeBetween(Integer minAge, Integer maxAge);
+
+    Set<Student> findByNameContainsIgnoreCase(String part);
+
+    Student getStudentByFaculty(String str);
 }

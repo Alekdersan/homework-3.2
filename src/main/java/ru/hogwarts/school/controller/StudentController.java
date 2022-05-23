@@ -31,7 +31,10 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> getAllStudents() {
+    public ResponseEntity getAllStudents(@RequestParam(required = false) String namePart) {
+        if (namePart != null) {
+            return ResponseEntity.ok(studentService.findStudentsByNameContains(namePart));
+        }
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
@@ -39,6 +42,14 @@ public class StudentController {
     public Set<Student> getByAge(@PathVariable int age) {
         return studentService.getByAge(age);
     }
+
+    @GetMapping(params = {"minAge", "maxAge"})
+    public Set<Student> findAllStudentsByAgeBetween(
+            @RequestParam(required = false) Integer minAge,
+            @RequestParam(required = false) Integer maxAge) {
+        return studentService.findAllStudentsByAgeBetween(minAge, maxAge);
+    }
+
 
     @PostMapping
     public ResponseEntity<Student> creatStudent(@RequestBody Student student) {

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
+import javax.websocket.server.PathParam;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -30,13 +31,22 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping
+        @GetMapping
     public ResponseEntity<Collection<Faculty>> getAllFaculties() {
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
+    @GetMapping({"title"})
+    public ResponseEntity<Set<Faculty>> findFacultyByColorOrNameIgnoreCase(
+            @RequestParam (required = false) String color,
+            @RequestParam (required = false) String title) {
+        if (color != null || title != null) {
+            return ResponseEntity.ok(facultyService.findFacultyByColorOrNameIgnoreCase(color, title));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
-    @GetMapping("/filter/{color}")
-    public Set<Faculty> getByColor(@PathVariable String color) {
+    @GetMapping(params = {"color"})
+    public Set<Faculty> getByColor(@RequestParam(required = false) String color) {
         return facultyService.getByColor(color);
     }
 

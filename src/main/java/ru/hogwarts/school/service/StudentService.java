@@ -20,4 +20,8 @@ public interface StudentService {
     Collection<Student> getAllStudents();
 
     Set<Student> getByAge(int age);
+
+    Set<Student> findAllStudentsByAgeBetween(Integer minAge, Integer maxAge);
+
+    Set<Student> findStudentsByNameContains(String part);
 }
