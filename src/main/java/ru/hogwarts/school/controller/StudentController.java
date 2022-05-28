@@ -7,8 +7,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -76,8 +74,12 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/student")
-    public ResponseEntity<Student> getFacultyOfStudent(@PathVariable Long id) {
-        return ResponseEntity.ok().build();
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> getStudentOfFaculty(@PathVariable Long id) {
+        Faculty student = studentService.findStudentById(id).getFaculty();
+        if (student == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(student);
     }
 }

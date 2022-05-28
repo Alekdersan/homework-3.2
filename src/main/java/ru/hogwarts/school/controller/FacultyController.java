@@ -4,12 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.repository.StudentRepository;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
-import javax.websocket.server.PathParam;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -75,9 +73,12 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/faculty")
-    public Faculty getStudentOfFaculty(@PathVariable Long id) {
-        Faculty faculty = facultyService.findFaculty(id);
-        return null;
+    @GetMapping("/{id}/student")
+    public ResponseEntity<Collection<Student>> getFacultyOfStudent(@PathVariable Long id) {
+       Collection<Student> faculty = facultyService.findFaculty(id).getStudents();
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 }

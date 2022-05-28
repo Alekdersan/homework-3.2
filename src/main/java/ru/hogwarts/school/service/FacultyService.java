@@ -15,8 +15,6 @@ public interface FacultyService {
     Faculty findFaculty(Long id);
 
 
-//    Faculty getStudentByFaculty(Long id);
-
     Faculty editFaculty(Faculty faculty);
 
     void deleteFaculty(Long id);
