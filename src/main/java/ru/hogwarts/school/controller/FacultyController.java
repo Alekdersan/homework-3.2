@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
 
 import javax.websocket.server.PathParam;
@@ -35,7 +36,7 @@ public class FacultyController {
     public ResponseEntity<Collection<Faculty>> getAllFaculties() {
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
-    @GetMapping({"title"})
+    @GetMapping({"/bycolororname"})
     public ResponseEntity<Set<Faculty>> findFacultyByColorOrNameIgnoreCase(
             @RequestParam (required = false) String color,
             @RequestParam (required = false) String title) {
@@ -45,7 +46,7 @@ public class FacultyController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @GetMapping(params = {"color"})
+    @GetMapping( "/bycolor")
     public Set<Faculty> getByColor(@RequestParam(required = false) String color) {
         return facultyService.getByColor(color);
     }
@@ -72,6 +73,11 @@ public class FacultyController {
     public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
+    }
 
+    @GetMapping("/{id}/faculty")
+    public Faculty getStudentOfFaculty(@PathVariable Long id) {
+        Faculty faculty = facultyService.findFaculty(id);
+        return null;
     }
 }

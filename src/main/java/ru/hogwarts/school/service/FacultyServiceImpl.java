@@ -6,7 +6,6 @@ import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +29,13 @@ public class FacultyServiceImpl implements FacultyService {
         return facultyRepository.findById(id).get();
     }
 
+//    @Override
+//    public Faculty getStudentByFaculty(Long id) {
+//       return facultyRepository.findById(id).orElseThrow().getStudents();
+    // или
+// return facultyRepository.getStudentByFaculty(id);
+//    }
+
     @Override
     public Faculty editFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
@@ -46,8 +52,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     public Set<Faculty> getByColor(String color) {
-        return facultyRepository.findAll().stream().filter(faculty -> faculty.getColor().equals(color))
-                .collect(Collectors.toSet());
+        return facultyRepository.getByColorIgnoreCase(color);
     }
 
     @Override

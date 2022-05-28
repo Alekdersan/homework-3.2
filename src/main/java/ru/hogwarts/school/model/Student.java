@@ -58,6 +58,10 @@ public class Student {
         this.id = id;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
