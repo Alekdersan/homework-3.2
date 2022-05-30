@@ -52,9 +52,6 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> creatStudent(@RequestBody Student student) {
-        if (student.getId() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         Student addStudent = studentService.creatStudent(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(addStudent);
     }
