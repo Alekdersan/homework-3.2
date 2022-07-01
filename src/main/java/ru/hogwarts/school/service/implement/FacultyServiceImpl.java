@@ -1,10 +1,12 @@
-package ru.hogwarts.school.service;
+package ru.hogwarts.school.service.implement;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -50,7 +52,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Set<Faculty> findFacultyByColorOrNameIgnoreCase(String color, String title) {
-        return facultyRepository.findByColorIgnoreCaseOrTitleIgnoreCase(color, title);
+    public Set<Faculty> findFacultyByColorOrNameIgnoreCase(String color, String title ) { //
+        return facultyRepository.findByColorIgnoreCaseOrTitleIgnoreCase(color, title);   //
     }
 }
