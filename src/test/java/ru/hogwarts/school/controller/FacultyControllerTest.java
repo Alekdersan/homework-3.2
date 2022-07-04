@@ -49,11 +49,10 @@ class FacultyControllerTest {
     @Test
     public void saveStudentTest() throws Exception {
 
-        final String title = "Hollywood"; // в разборе Гари Поттер
+        final String title = "Hollywood";
         final String color = "pink";
         final Long id = 1L;
 
-        //Faculty faculty = new Faculty(); - это закоммитил, т.к. делаю как в разборе
         Faculty faculty = new Faculty(id, title, color);
 
         JSONObject facultyObject = new JSONObject();
@@ -66,7 +65,6 @@ class FacultyControllerTest {
         faculty.setColor(color);
 
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
-        //when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty)); - закоммитил, т.к. этого нет в разборе
         when(facultyRepository.findById(eq(id))).thenReturn(Optional.of(faculty));
         when(facultyRepository.findByColorIgnoreCaseOrTitleIgnoreCase(eq(color), eq(title))).thenReturn(Set.of(faculty)); // в разборе вместо Set стоит List
 
@@ -75,8 +73,7 @@ class FacultyControllerTest {
                         .content(facultyObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isCreated())
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.title").value(title))
                 .andExpect(jsonPath("$.color").value(color));
@@ -100,8 +97,7 @@ class FacultyControllerTest {
                 .andExpect(jsonPath("$.color").value(color));
 
         mockMvc.perform(MockMvcRequestBuilders
-//                        .get("/faculty/bycolor")
-                        .get("/faculty/bycolor/" + color)
+                        .get("/faculty/bycolor?color=" + color)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(id))

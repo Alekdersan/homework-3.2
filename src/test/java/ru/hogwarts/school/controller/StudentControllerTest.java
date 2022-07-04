@@ -32,13 +32,10 @@ class StudentControllerTest {
     private int port;
 
     @InjectMocks
-    private StudentController studentController; // добавил как в разборе
-
-//    @Autowired
-//    private StudentController studentController;  - закоммитил т.к. в разборе нет
+    private StudentController studentController;
 
     @Autowired
-    private StudentServiceImpl studentService; // добавил как в разборе
+    private StudentServiceImpl studentService;
 
     @MockBean
     private StudentRepository studentRepository;
@@ -50,6 +47,7 @@ class StudentControllerTest {
 
     @BeforeEach
     void setUp() {
+
         Student student = new Student("Valentin", 30, 10L);
         studentService.creatStudent(student);
         when(studentRepository.findById(10L)).thenReturn(Optional.of(student));
@@ -68,7 +66,7 @@ class StudentControllerTest {
     @Test
     void testGetStudent() throws JSONException {
 
-        String expected = "{id:10,title:\"Valentin\",age:30}";
+        String expected = "{id:10,name:\"Valentin\",age:30}";
 
         ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/student/" + 10L, String.class);
 
@@ -82,6 +80,7 @@ class StudentControllerTest {
     void creatStudent() throws JsonProcessingException, JSONException {
 
         Student student = new Student("Bob", 16, 10L);
+        when(studentRepository.save(student)).thenReturn(student);
         studentService.creatStudent(student);
         String expected = mapper.writeValueAsString(student);
 

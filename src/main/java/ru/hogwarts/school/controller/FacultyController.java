@@ -8,7 +8,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -41,7 +40,7 @@ public class FacultyController {
             @RequestParam(required = false) String color,
             @RequestParam(required = false) String title) {
         if (color != null || title != null) {
-            return ResponseEntity.ok(facultyService.findFacultyByColorOrNameIgnoreCase(color, title));   //
+            return ResponseEntity.ok(facultyService.findFacultyByColorOrNameIgnoreCase(color, title));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
