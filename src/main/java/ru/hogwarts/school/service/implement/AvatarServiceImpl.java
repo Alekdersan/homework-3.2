@@ -3,6 +3,8 @@ package ru.hogwarts.school.service.implement;
 
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +54,7 @@ public class AvatarServiceImpl implements AvatarService {
         ) {
             bis.transferTo(bos);
         }
-//        Avatar avatar = findAvatar(avatarId);
+
         Avatar avatar = findAvatar(studentId);
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
@@ -88,5 +90,11 @@ public class AvatarServiceImpl implements AvatarService {
 
     public Avatar findAvatar(Long studentId) {
         return avatarRepository.findById(studentId).orElse(new Avatar());
+    }
+
+    @Override
+    public Page<Avatar> getAllAvatars(Integer pageNumder, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumder - 1, pageSize);
+        return avatarRepository.findAll(pageRequest);
     }
 }
