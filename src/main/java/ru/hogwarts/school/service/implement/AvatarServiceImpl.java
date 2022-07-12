@@ -2,6 +2,8 @@ package ru.hogwarts.school.service.implement;
 
 
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarServiceImpl implements AvatarService {
 
+    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
+
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
 
@@ -42,10 +46,12 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
-    Student student = studentRepository.getById(studentId);
+        logger.info("Uploading student {} an avatar {}", studentId, avatarFile);
+        Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
+        logger.error("This data does not correspond to the input stream");
         try (
                 InputStream is = avatarFile.getInputStream();
                 OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
@@ -56,21 +62,25 @@ public class AvatarServiceImpl implements AvatarService {
         }
 
         Avatar avatar = findAvatar(studentId);
+        logger.debug("We find the data of the student's avatar");
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
         avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(generateDataForDB(filePath));
 
+        logger.debug("Avatar uploaded = {}", avatar);
         avatarRepository.save(avatar);
     }
 
 
     private byte[] generateDataForDB(Path filePath) throws IOException {
+        logger.warn("Possible error in generating the main data for the database");
         try (
                 InputStream is = Files.newInputStream(filePath);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ) {
             BufferedImage image = ImageIO.read(bis);
 
             int height = image.getHeight() / (image.getWidth() / 100);
@@ -80,21 +90,25 @@ public class AvatarServiceImpl implements AvatarService {
             graphics2D.dispose();
 
             ImageIO.write(preview, getExtensions(filePath.getFileName().toString()), baos);
+            logger.error("Error in generating the main data for the database");
             return baos.toByteArray();
         }
     }
 
     private String getExtensions(String fileName) {
+        logger.info("Getting the extension file name {}", fileName);
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("Student avatar search = {}", studentId);
         return avatarRepository.findById(studentId).orElse(new Avatar());
     }
 
     @Override
-    public Page<Avatar> getAllAvatars(Integer pageNumder, Integer pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNumder - 1, pageSize);
+    public Page<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        logger.info("Display students on the page {} and size {}", pageNumber, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest);
     }
 }
