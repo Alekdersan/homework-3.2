@@ -66,8 +66,25 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
+    public Double getAverageAgeOfAllStudents() {
+        return studentRepository.findAll().stream().collect(Collectors.averagingInt(Student::getAge));
+    }
+
     public Set<Student> findStudentsByNameContains(String part) {
         logger.info("Search for students by name part: {}", part);
         return studentRepository.findByNameContainsIgnoreCase(part);
     }
+
+    @Override
+    public List<String> getAllStudentsWithLetterA() {
+        logger.info("Get a list of all students with liter A");
+        return getAllStudents().stream()
+                .parallel()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
 }

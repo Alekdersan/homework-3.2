@@ -7,9 +7,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -65,4 +63,13 @@ public class FacultyServiceImpl implements FacultyService {
         logger.info("Search for faculties by color {} or title {}", color, title);
         return facultyRepository.findByColorIgnoreCaseOrTitleIgnoreCase(color, title);
     }
+
+    @Override
+    public Optional<String> findLongestNameFaculty() {
+        logger.info("Search longest name faculty");
+        return getAllFaculties().stream()
+                .map(Faculty::getTitle)
+                .max(Comparator.comparingInt(String::length));
+    }
+
 }
