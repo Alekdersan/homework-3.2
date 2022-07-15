@@ -57,13 +57,4 @@ public class ApplicationTests {
                 .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/", String.class))
                 .isNotNull();
     }
-
-//    @Test
-//    public void testGetStudentById() throws Exception {
-//        Student student = new Student();
-//        student.setId();
-//        Assertions
-//                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/{id}", Id, String.class))
-//                .isNotNull();
-//    }
 }
