@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Collection<Student> getAllStudents() {
+    public List<Student> getAllStudents() {
         logger.info("Get a list of all students");
         return studentRepository.findAll();
     }
@@ -87,4 +87,44 @@ public class StudentServiceImpl implements StudentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void getStudentsThread() {
+
+        List<Student> studentsThread = getAllStudents();
+
+        System.out.println("1. " + studentsThread.get(0).getName());
+        System.out.println("2. " + studentsThread.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println("3. " + studentsThread.get(2).getName());
+            System.out.println("4. " + studentsThread.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println("5. " + studentsThread.get(4).getName());
+            System.out.println("6. " + studentsThread.get(5).getName());
+        }).start();
+    }
+
+    @Override
+    public synchronized void run(int id) {
+        String student = studentRepository.findAll().get(id).getName();
+        System.out.println(id + ". " + student);
+    }
+
+    @Override
+    public void printNameStudent() {
+        run(0);
+        run(1);
+
+        new Thread(() -> {
+            run(2);
+            run(3);
+        }).start();
+
+        new Thread(() -> {
+            run(4);
+            run(5);
+        }).start();
+    }
 }

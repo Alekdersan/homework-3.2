@@ -90,4 +90,14 @@ public class StudentController {
         return studentService.getAllStudentsWithLetterA();
     }
 
+    @GetMapping("/studentThread")
+    public void getStudentsThread() {
+        studentService.getStudentsThread();
+    }
+
+    @GetMapping("/studentSynchronised")
+    public synchronized void printNameStudent() {
+        studentService.printNameStudent();
+    }
+
 }
