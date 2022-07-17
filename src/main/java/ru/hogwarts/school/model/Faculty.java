@@ -20,8 +20,6 @@ public class Faculty {
     private String color;
 
 
-
-
     @JsonIgnore
     @OneToMany(mappedBy = "faculty")
     private Collection<Student> students;
